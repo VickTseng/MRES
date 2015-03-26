@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script type="text/javascript" src="myjs/jquery.min.js"></script> 
+		<style>
+			canvas{
+				position:absolute;
+				top:420px;
+				left:550px;
+				width:340px;
+				height:180px;
+				background:white;
+				border-color: green;
+				border-width:5px;
+				border-style:solid;
+				-webkit-border-radius:10px;
+			}
+		</style>
+		
+	</head>
+	<script type="text/javascript" src="myjs/phantomLimb.js"></script>  		
+ 		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				// These are the default initialization settings
+				phantomLimb.init({
+					force: false,          // Map event listeners even if Phantom Limb thinks you're on a mobile device
+
+					src: 'limb-black.png', // Src of the pointer image, or falsey for no pointer at all
+
+					x: 100,                // Finger tip point from the left
+
+					y: -5,                 // Finger tip point from the top
+					                       // (should be negative so the image doesn't eat your clicks)
+
+					opacity: 0.3,            // Desired opacity of the pointer image
+					
+					lefty: false,           // For the southpaws
+				});
+			}, false);			
+ 		</script>
+	<body>
+		<canvas id="draw"> </canvas>
+		<script type="text/javascript">
+			var proper = {	//真分數
+			nume:[1,9,3,4,3,1,3,7,3],
+			denom:[2,12,8,5,10,8,6,8,5],
+			value:[0.5,0.75,0.375,0.8,0.3,0.125,0.5,0.875,0.6],
+			property:"proper"
+		}
+			var blockMap = new Object();//用來監控物件狀態
+			var block = $("#draw").get(0);
+			block.id = "draw";
+			block.offset = {x:0, y:0}
+			block.x=0, block.y=0;
+			block.obj = $("#draw");
+			
+			var blockArray = new Array();
+			blockArray.push(block);
+			
+			var index = Math.ceil(Math.random() * 7);	//題號
+			var canvas= document.getElementById("draw");
+			canvas.width = 340, canvas.height = 180;
+			var ctx = canvas.getContext('2d');
+			var a = new Image();
+			a.src = "fraction_photo/2_1.png";	
+			
+		   
+		   function drawGra(image, ctx){		   		
+		 	window.onload =function(){
+		   			ctx.drawImage(image,10,20,100,100);		   		
+		  		}
+		   }
+			drawGra(a,ctx);		
+			
+			function touchstart(event){
+				event.changedTouches = event.targetTouches;
+	
+	if(event.changedTouches.length >0){
+		for(var i=0; i<blockArray.length; i++){
+			for(j=0; j<event.changedTouches.length; j++){
+				if(event.changedTouches[j].target.id == blockArray[i].id){
+					switch(blockArray[i].id){
+						case "draw":
+							blockArray[i].identifier = event.changedTouches[j].identifier;
+							blockArray[i].offset.x = blockArray[i].x- event.changedTouches[j].pageX;
+							blockArray[i].offset.y = blockArray[i].y - event.changedTouches[j].pageY;
+							blockMap[blockArray[i].identifier] = blockArray[i];													
+							break;
+					}
+				}
+			}
+		}
+	}
+			}
+			
+			function touchmove(event){
+				event.changedTouches = event.targetTouches;
+	
+				for(var i=0; i<event.changedTouches.length; i++){
+					var block = blockMap[event.changedTouches[i].identifier];
+		
+				if(block){
+						block.x = block.offset.x + event.changedTouches[i].pageX;
+						block.y = block.offset.y + event.changedTouches[i].pageY;
+						block.obj.css("-webkit-transform", ["translate3d(",block.x,"px, ",block.y,"px, 0px) "].join(""));			
+					}
+				}
+				event.preventDefault();
+			}
+			
+			function touchend(event){
+				event.changedTouches = event.targetTouches;
+				for(var i=0; i<event.changedTouches.length; i++){
+				var block =  blockMap[event.changedTouches[i].identifier];	
+				//	block.x=0, block.y =0;
+					delete blockMap[event.changedTouches[i].identifier];
+				}
+			}
+			
+			document.addEventListener('touchstart', touchstart, false);//觸發touchstart事件
+			document.addEventListener('touchmove', touchmove, false);//觸發touchmove事件
+			document.addEventListener('touchend', touchend, false);//觸發touchend事件
+			
+		</script>
+	</body>
+</html>

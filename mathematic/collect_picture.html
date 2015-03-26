@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>交換圖卡</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="mycss/collect.css" />
+		<script type="text/javascript" src="myjs/jquery.min.js"></script> 
+  		<script type="text/javascript" src="myjs/jquery-css-transform.js"></script> 
+  		<script type="text/javascript" src="myjs/jquery-animate-css-rotate-scale.js"></script>
+ 		<script type="text/javascript" src="myjs/magictouch.js"></script>
+ 		<script type="text/javascript" src="myjs/fraction_collect.js"></script>
+ 		<script type="text/javascript" src="myjs/draw_function.js"></script>
+ 		<script type="text/javascript" src="myjs/handleObject.js"></script>
+ 		<script type="text/javascript" src="myjs/collect_log.js"></script>
+ 	<!--	<script type="text/javascript" src="myjs/ajax.js"></script>-->
+ 		<script type="text/javascript" src="myjs/phantomLimb.js"></script>  		
+ 		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				// These are the default initialization settings
+				phantomLimb.init({
+					force: false,          // Map event listeners even if Phantom Limb thinks you're on a mobile device
+
+					src: 'limb-black.png', // Src of the pointer image, or falsey for no pointer at all
+
+					x: 100,                // Finger tip point from the left
+
+					y: -5,                 // Finger tip point from the top
+					                       // (should be negative so the image doesn't eat your clicks)
+
+					opacity: 0.3,            // Desired opacity of the pointer image
+					
+					lefty: false,           // For the southpaws
+				});
+			}, false);			
+ 		</script>  
+	</head>
+
+	<body>
+		<canvas id="drawLayer"> </canvas>
+		
+		<div id="central_area"> 			
+			<!--<div id="centralReport">此階段任務完成，請按下一階段進行接下來的活動。</div>-->
+		</div>
+		
+		<div id="explain_A"> 將自己的圖卡與別人做交換，按下確定鍵後，若配對正確，字符會變成黑色，每個人的圖卡都配對成功後，即可進入下個階段，按下關閉說明後，開始活動。</div>
+		<div id="A_report">交換圖卡任務完成!<br>請按下一階段進行接下來的活動。 </div>
+		
+		<div id="A_rubberBandArea_left"> 
+			<div id="A_to_c0"> </div>
+			<div id="A_to_c2_link"> </div>			
+			<div id="A_to_c1"> </div>
+			<div id="A_to_c1_link"> </div>
+			<div id="A_to_c2"> </div>		
+			<div id="A_to_c0_link"> </div>	
+		</div>		
+		
+		<div id="A_rubberBandArea_right"> 
+			<div id="A_to_b0"> </div>
+			<div id="A_to_b2_link"> </div>
+			<div id="A_to_b1"> </div>
+			<div id="A_to_b1_link"> </div>
+			<div id="A_to_b2"> </div>
+			<div id="A_to_b0_link"> </div>
+		</div>
+		
+		<div id="A_whether_change"> 
+			<canvas id="A_change_pic"> </canvas>	
+			<div id="A_accept"> 接受</div>
+			<div id="A_turn_down"> 拒絕</div>
+		</div>
+		<div id="member_A">
+			<canvas id="member_A_fraction_symbol_first"> </canvas>
+			<canvas id="member_A_fraction_symbol_second"> </canvas>
+			<canvas id="member_A_fraction_symbol_third"> </canvas>
+			
+			<canvas id="member_A_fraction_graphic_first"> </canvas>
+			<canvas id="member_A_fraction_graphic_second"> </canvas>
+			<canvas id="member_A_fraction_graphic_third"> </canvas>
+			
+			<div id="A_confirm">確定</div>
+			<div id="A_next">下一階段</div>
+			<div id="clozeExplainA"> 關閉說明</div>
+		</div>	
+		
+		<div id="explain_B">將自己的圖卡與別人做交換，按下確定鍵後，若配對正確，字符會變成黑色，每個人的圖卡都配對成功後，即可進入下個階段，按下關閉說明後，開始活動。 </div>
+		<div id="B_report">交換圖卡任務完成!<br>請按下一階段進行接下來的活動。 </div>
+		<div id="B_rubberBandArea_left"> 
+			<div id="B_to_a0"> </div>
+			<div id="B_to_a1"> </div>
+			<div id="B_to_a2"> </div>	
+			<div id="B_to_a2_link"> </div>	
+			<div id="B_to_a1_link"> </div>	
+			<div id="B_to_a0_link"> </div>	
+		</div>
+		<div id="B_rubberBandArea_right"> 
+			<div id="B_to_c0"> </div>
+			<div id="B_to_c1"> </div>
+			<div id="B_to_c2"> </div>
+			<div id="B_to_c2_link"> </div>
+			<div id="B_to_c1_link"> </div>
+			<div id="B_to_c0_link"> </div>
+		</div>
+		<div id="B_whether_change"> 
+			<canvas id="B_change_pic"> </canvas>	
+			<div id="B_accept"> 接受</div>
+			<div id="B_turn_down"> 拒絕</div>
+		</div>
+		<div id="member_B">
+			<canvas id="member_B_fraction_symbol_first"> </canvas>
+			<canvas id="member_B_fraction_symbol_second"> </canvas>
+			<canvas id="member_B_fraction_symbol_third"> </canvas>
+			
+			<canvas id="member_B_fraction_graphic_first"> </canvas>
+			<canvas id="member_B_fraction_graphic_second"> </canvas>
+			<canvas id="member_B_fraction_graphic_third"> </canvas>
+			
+			<div id="B_confirm">確定</div>
+			<div id="B_next">下一階段</div>
+			<div id="clozeExplainB"> 關閉說明</div>
+		</div>
+		
+		<div id="explain_C">將自己的圖卡與別人做交換，按下確定鍵後，若配對正確，字符會變成黑色，每個人的圖卡都配對成功後，即可進入下個階段，按下關閉說明後，開始活動。 </div>
+		<div id="C_report">交換圖卡任務完成!<br>請按下一階段進行接下來的活動。 </div>
+		<div id="C_rubberBandArea_left"> 			
+			<div id="C_to_b0"> </div>
+			<div id="C_to_b1"> </div>
+			<div id="C_to_b2"> </div>	
+			<div id="C_to_b0_link"> </div>
+			<div id="C_to_b1_link"> </div>
+			<div id="C_to_b2_link"> </div>
+		</div>
+		<div id="C_rubberBandArea_right"> 
+			<div id="C_to_a0"> </div>
+			<div id="C_to_a1"> </div>
+			<div id="C_to_a2"> </div>		
+			<div id="C_to_a0_link"> </div>		
+			<div id="C_to_a1_link"> </div>	
+			<div id="C_to_a2_link"> </div>
+		</div>
+		<div id="C_whether_change"> 
+			<canvas id="C_change_pic"> </canvas>	
+			<div id="C_accept"> 接受</div>
+			<div id="C_turn_down"> 拒絕</div>
+		</div>
+		<div id="member_C">
+			<canvas id="member_C_fraction_symbol_first"> </canvas>
+			<canvas id="member_C_fraction_symbol_second"> </canvas>
+			<canvas id="member_C_fraction_symbol_third"> </canvas>
+			
+			<canvas id="member_C_fraction_graphic_first"> </canvas>
+			<canvas id="member_C_fraction_graphic_second"> </canvas>
+			<canvas id="member_C_fraction_graphic_third"> </canvas>
+			
+			<div id="C_confirm">確定</div>
+			<div id="C_next">下一階段</div>
+			<div id="clozeExplainC"> 關閉說明</div>
+		</div>
+		<script type="text/javascript" src="myjs/canvas_element.js"></script>
+		<script type="text/javascript" src="myjs/objectProperty.js"></script>
+		<script type="text/javascript" src="myjs/collect.js"></script>
+		<object id="tuio" type="application/x-tuio"> </object>
+	</body>
+</html>

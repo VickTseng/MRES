@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>等值分數配對A難度</title>
+		<link rel="stylesheet" type="text/css" href="mycss/equivalence.css" />
+		<script type="text/javascript" src="myjs/jquery.min.js"></script> 
+		<script src="jQuery_UI/development-bundle/ui/jquery.effects.core.js"></script>
+		<script src="jQuery_UI/development-bundle/ui/jquery.effects.shake.js"></script>
+  		<script type="text/javascript" src="myjs/jquery-css-transform.js"></script> 
+  		<script type="text/javascript" src="myjs/jquery-animate-css-rotate-scale.js"></script>
+ 		<script type="text/javascript" src="myjs/magictouch.js"></script>
+ 		<script type="text/javascript" src="myjs/fraction_equivalence_A.js"></script>
+ 		<script type="text/javascript" src="myjs/equivalence_daw_function.js"></script>
+ 		<script type="text/javascript" src="myjs/handleObject_3.js"></script>
+ 		<script type="text/javascript" src="myjs/equivalence_A_log.js"></script>
+ 		<script type="text/javascript" src="myjs/ajax.js"></script>
+ 		<script type="text/javascript" src="myjs/phantomLimb.js"></script>  		
+ 		<!--<script type="text/javascript">
+			window.addEventListener('load', function() {
+				// These are the default initialization settings
+				phantomLimb.init({
+					force: false,          // Map event listeners even if Phantom Limb thinks you're on a mobile device
+
+					src: 'limb-black.png', // Src of the pointer image, or falsey for no pointer at all
+
+					x: 100,                // Finger tip point from the left
+
+					y: -5,                 // Finger tip point from the top
+					                       // (should be negative so the image doesn't eat your clicks)
+
+					opacity: 0.3,            // Desired opacity of the pointer image
+					
+					lefty: false,           // For the southpaws
+				});
+			}, false);			
+ 		</script>  -->
+		
+	</head>
+
+	<body>
+	<canvas id="drawLayer"> </canvas>
+	
+	<!--<div id="time"> </div>-->
+	<div id="central_area">
+	<!--	<canvas id="record_answer"> </canvas>-->
+		<canvas id="fraction1"> </canvas><!-- 題目字符-->	
+		<div id="equal_mark3">= </div>
+		<canvas id="fraction_gra"> </canvas><!-- 題目圖像-->
+		<div id="equal_mark1">=</div>
+		<div id="equal_mark2">=</div>	
+	
+		<canvas id="central_symbol_1"> </canvas>
+		<canvas id="blank_1"> </canvas>
+		
+		<canvas id="central_symbol_2"> </canvas>
+		<canvas id="blank_2"> </canvas>
+		
+		<canvas id="central_symbol_3"> </canvas>
+		<canvas id="blank_3"> </canvas>		
+		
+		<canvas id="Central_original_sym1"> </canvas>
+		<canvas id="Central_original_gra1"> </canvas>
+		
+		<canvas id="Central_original_sym2"> </canvas>
+		<canvas id="Central_original_gra2"> </canvas>
+		
+		<canvas id="Central_original_sym3"> </canvas>
+		<canvas id="Central_original_gra3"> </canvas>
+		
+		<canvas id="central_extendSym1"> </canvas>
+		<canvas id="central_extendGra1"> </canvas>
+		
+		<canvas id="central_extendSym2"> </canvas>
+		<canvas id="central_extendGra2"> </canvas>
+		
+		<canvas id="central_extendSym3"> </canvas>
+		<canvas id="central_extendGra3"> </canvas>
+		
+		<div id="link1"> </div>
+		<div id="link2"> </div>
+		<div id="link3"> </div>
+		<div id="link4"> </div>
+		<div id="link5"> </div>
+		<div id="link6"> </div>		
+		
+		<div id="extend1"> </div>
+		<div id="extend2"> </div>
+		<div id="extend3"> </div>
+		
+		<div id="confirm">確定</div>
+		<div id="centralReport">此階段任務完成，請按下一階段進行接下來的活動。</div>
+	</div>	
+	
+	<div id="A_panel">
+		<canvas id="A_symbol_panel"> </canvas>
+		<div id="A_count"> </div>
+		<div id="A_close"> </div>
+		<canvas id="A_cloze1"> </canvas>
+		<div id="A_equal1">= </div>
+		<canvas id="A_cloze2"> </canvas>
+		<div id="A_equal2">= </div>
+		<canvas id="A_cloze3"> </canvas>		
+		<div id="A_add"> </div>
+		<div id="A_sub"> </div>
+		<div id="A_confirm">確定</div>
+		<div id="A_extend_reduce">擴分 </div>
+		<div id="A_previous"> 上個步驟</div>
+		<div id="A_message"> </div>
+		<div id="A_unit"> 個位</div>
+		<div id="A_ten"> 十位</div>
+	</div>
+	
+	<div id="explain_A">先進行圖卡與字符的配對，若配對正確，面板上的字符會變成黑色，全部配對完成後，將會開啟中央區域的題目，按下關閉說明後，開始進行活動。 </div>
+	<div id="A_report"> 等值分數任務完成!</div>
+	<div id="A_rubberBandArea"> 
+		<div id="A_to_center1"> </div>
+		<div id="A_to_center2"> </div>
+		<div id="A_to_center3"> </div>
+		
+		<div id="A_to_center1_link"> </div>
+		<div id="A_to_center2_link"> </div>
+		<div id="A_to_center3_link"> </div>
+	</div>
+	
+	<div id="A_take_back1">收回圖卡 </div>
+	<div id="A_take_back2">收回圖卡 </div>
+	<div id="A_take_back3">收回圖卡 </div>
+	<div id="member_A">
+		<canvas id="member_A_fraction_symbol_first"> </canvas>
+		<canvas id="member_A_fraction_symbol_second"> </canvas>
+		<canvas id="member_A_fraction_symbol_third"> </canvas>
+			
+		<canvas id="member_A_fraction_graphic_first"> </canvas>
+		<canvas id="member_A_fraction_graphic_second"> </canvas>
+		<canvas id="member_A_fraction_graphic_third"> </canvas>			
+		<div id="A_translate">轉換圖卡 </div>
+		<div id="clozeExplainA"> 關閉說明</div>
+		<div id="A_check">確定 </div>
+		<div id="A_next">下一階段 </div>
+		<canvas id="A_original1"> </canvas>
+		<canvas id="A_original2"> </canvas>
+		<canvas id="A_original3"> </canvas>
+	</div>
+	
+	<div id="B_panel">
+		<canvas id="B_symbol_panel"> </canvas>
+		<div id="B_count"> </div>
+		<div id="B_close"> </div>
+		<canvas id="B_cloze1"> </canvas>
+		<div id="B_equal1">= </div>
+		<canvas id="B_cloze2"> </canvas>
+		<div id="B_equal2">= </div>
+		<canvas id="B_cloze3"> </canvas>		
+		<div id="B_add"> </div>
+		<div id="B_sub"> </div>
+		<div id="B_confirm">確定</div>
+		<div id="B_extend_reduce">擴分 </div>
+		<div id="B_previous"> 上個步驟</div>
+		<div id="B_message"> </div>
+		<div id="B_unit"> 個位</div>
+		<div id="B_ten"> 十位</div>
+	</div>
+	
+	<div id="explain_B">先進行圖卡與字符的配對，若配對正確，面板上的字符會變成黑色，全部配對完成後，將會開啟中央區域的題目，按下關閉說明後，開始進行活動。 </div>
+	<div id="B_report"> 等值分數任務完成!</div>
+	<div id="B_rubberBandArea"> 
+		<div id="B_to_center1"> </div>
+		<div id="B_to_center2"> </div>
+		<div id="B_to_center3"> </div>
+		
+		<div id="B_to_center1_link"> </div>
+		<div id="B_to_center2_link"> </div>
+		<div id="B_to_center3_link"> </div>
+	</div>
+	
+	<div id="B_take_back1">收回圖卡 </div>
+	<div id="B_take_back2">收回圖卡 </div>
+	<div id="B_take_back3">收回圖卡 </div>
+	<div id="member_B">
+		<canvas id="member_B_fraction_symbol_first"> </canvas>
+		<canvas id="member_B_fraction_symbol_second"> </canvas>
+		<canvas id="member_B_fraction_symbol_third"> </canvas>
+			
+		<canvas id="member_B_fraction_graphic_first"> </canvas>
+		<canvas id="member_B_fraction_graphic_second"> </canvas>
+		<canvas id="member_B_fraction_graphic_third"> </canvas>			
+		<div id="B_translate">轉換圖卡 </div>
+		<div id="clozeExplainB"> 關閉說明</div>
+		<div id="B_check">確定 </div>
+		<div id="B_next">下一階段 </div>
+		<canvas id="B_original1"> </canvas>
+		<canvas id="B_original2"> </canvas>
+		<canvas id="B_original3"> </canvas>
+	</div>
+	
+	<div id="C_panel">
+		<div id="C_close"> </div>
+		<canvas id="C_symbol_panel"> </canvas>
+		<div id="C_count"> </div>
+		<canvas id="C_cloze1"> </canvas>
+		<div id="C_equal1">= </div>
+		<canvas id="C_cloze2"> </canvas>
+		<div id="C_equal2">= </div>
+		<canvas id="C_cloze3"> </canvas>		
+		<div id="C_add"> </div>
+		<div id="C_sub"> </div>
+		<div id="C_confirm">確定</div>
+		<div id="C_extend_reduce">擴分 </div>
+		<div id="C_previous"> 上個步驟</div>
+		<div id="C_message"> </div>
+		<div id="C_unit"> 個位</div>
+		<div id="C_ten"> 十位</div>
+	</div>
+	
+	<div id="explain_C">先進行圖卡與字符的配對，若配對正確，面板上的字符會變成黑色，全部配對完成後，將會開啟中央區域的題目，按下關閉說明後，開始進行活動。 </div>
+	<div id="C_report"> 等值分數任務完成!</div>
+	<div id="C_rubberBandArea"> 
+		<div id="C_to_center1"> </div>
+		<div id="C_to_center2"> </div>
+		<div id="C_to_center3"> </div>
+		
+		<div id="C_to_center1_link"> </div>
+		<div id="C_to_center2_link"> </div>
+		<div id="C_to_center3_link"> </div>
+	</div>
+	
+	<div id="C_take_back1">收回圖卡 </div>
+	<div id="C_take_back2">收回圖卡 </div>
+	<div id="C_take_back3">收回圖卡 </div>
+	<div id="member_C">
+		<canvas id="member_C_fraction_symbol_first"> </canvas>
+		<canvas id="member_C_fraction_symbol_second"> </canvas>
+		<canvas id="member_C_fraction_symbol_third"> </canvas>
+		
+		<canvas id="member_C_fraction_graphic_first"> </canvas>
+		<canvas id="member_C_fraction_graphic_second"> </canvas>
+		<canvas id="member_C_fraction_graphic_third"> </canvas>			
+		<div id="C_translate">轉換圖卡 </div>
+		<div id="clozeExplainC"> 關閉說明</div>
+		<div id="C_check">確定 </div>
+		<div id="C_next">下一階段 </div>
+		<canvas id="C_original1"> </canvas>
+		<canvas id="C_original2"> </canvas>
+		<canvas id="C_original3"> </canvas>
+	</div>
+	<script type="text/javascript" src="myjs/canvas_element_3.js"></script>
+	<script type="text/javascript" src="myjs/objectProperty_A_3.js"></script>
+	<script type="text/javascript" src="myjs/equivalence_A.js"></script>
+	<object id="tuio" type="application/x-tuio"> </object>
+	</body>
+</html>

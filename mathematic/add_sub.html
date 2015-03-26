@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>同異分母加減</title>
+		<link rel="stylesheet" type="text/css" href="mycss/add_sub.css" />
+		<script type="text/javascript" src="myjs/jquery.min.js"></script> 
+		<script src="jQuery_UI/development-bundle/ui/jquery.effects.core.js"></script>
+		<script src="jQuery_UI/development-bundle/ui/jquery.effects.shake.js"></script>
+  		<script type="text/javascript" src="myjs/jquery-css-transform.js"></script> 
+  		<script type="text/javascript" src="myjs/jquery-animate-css-rotate-scale.js"></script>
+ 		<script type="text/javascript" src="myjs/magictouch.js"></script>
+ 		<script type="text/javascript" src="myjs/fraction_add_sub.js"></script>
+ 		<script type="text/javascript" src="myjs/add_sub_draw_function.js"></script>
+ 		<script type="text/javascript" src="myjs/handleObject_4.js"></script>
+ 		<script type="text/javascript" src="myjs/ajax.js"></script> 	
+ 		
+ 		<script type="text/javascript" src="myjs/phantomLimb.js"></script>  		
+ 		<script type="text/javascript">
+			window.addEventListener('load', function() {
+				// These are the default initialization settings
+				phantomLimb.init({
+					force: false,          // Map event listeners even if Phantom Limb thinks you're on a mobile device
+
+					src: 'limb-black.png', // Src of the pointer image, or falsey for no pointer at all
+
+					x: 100,                // Finger tip point from the left
+
+					y: -5,                 // Finger tip point from the top
+					                       // (should be negative so the image doesn't eat your clicks)
+
+					opacity: 0.3,            // Desired opacity of the pointer image
+					
+					lefty: false,           // For the southpaws
+				});
+			}, false);			
+ 		</script> 
+ 		
+	</head>
+
+	<body>
+	<canvas id="drawLayer"> </canvas>
+	
+	<!--<div id="time"> </div>-->
+	
+	<div id="central_area">
+		<!--<canvas id="record_answer"> </canvas>-->
+		<canvas id="central_symbol_1"> </canvas>
+		<canvas id="blank_1"> </canvas>
+		<div id="operator_mark1"> </div>
+		<canvas id="central_symbol_2"> </canvas>
+		<canvas id="blank_2"> </canvas>
+		<div id="operator_mark2">=</div>
+		<canvas id="central_symbol_3"> </canvas>
+		<canvas id="blank_3"> </canvas>
+		
+		<canvas id="central_symbol_4"> </canvas>
+		<canvas id="blank_4"> </canvas>
+		<div id="operator_mark3"> </div>
+		<canvas id="central_symbol_5"> </canvas>
+		<canvas id="blank_5"> </canvas>
+		<canvas id="central_symbol_6"> </canvas>
+		<div id="operator_mark4"> </div>
+		<canvas id="central_symbol_7"> </canvas>
+		<canvas id="blank_6"> </canvas>
+		<div id="operator_mark5">= </div>
+		<canvas id="blank_7"> </canvas>
+		
+		<div id="confirm">確定</div>
+		<div id="blank1_rotate"> </div>
+		<div id="blank2_rotate"> </div>
+		<div id="transMix">轉成帶分數 </div>
+		<div id="direct"> </div>
+		<canvas id="process"> </canvas>
+		<div id="result"> </div>
+	</div>
+	
+	
+	<div id="A_panel">
+		<canvas id="A_symbol_panel"> </canvas>
+		<div id="A_count"> </div>
+		<div id="A_close"> </div>
+		<canvas id="A_cloze1"> </canvas>
+		<div id="A_equal1">= </div>
+		<canvas id="A_cloze2"> </canvas>
+		<div id="A_equal2">= </div>
+		<canvas id="A_cloze3"> </canvas>		
+		<div id="A_add"> </div>
+		<div id="A_sub"> </div>
+		<div id="A_unit"> 個位</div>
+		<div id="A_ten"> 十位</div>
+		<div id="A_confirm">確定</div>
+		<div id="A_extend_reduce">擴分 </div>
+		<div id="A_previous"> 上個步驟</div>
+		<div id="A_message"> </div>
+	</div>
+	
+	<div id="A_report">分數加減活動完成! <br>所有的活動都完成了，恭喜你們</div>
+	<div id="A_rubberBandArea"> 
+		<div id="A_to_center1"> </div>
+		<div id="A_to_center2"> </div>
+		<div id="A_to_center3"> </div>
+		
+		<div id="A_to_center1_link"> </div>
+		<div id="A_to_center2_link"> </div>
+		<div id="A_to_center3_link"> </div>
+	</div>
+	
+	<div id="A_take_back1">收回圖卡 </div>
+	<div id="A_take_back2">收回圖卡 </div>
+	<div id="A_take_back3">收回圖卡 </div>
+	<div id="member_A">
+		<canvas id="member_A_fraction_symbol_first"> </canvas>
+		<canvas id="member_A_fraction_symbol_second"> </canvas>
+		<canvas id="member_A_fraction_symbol_third"> </canvas>
+			
+		<canvas id="member_A_fraction_graphic_first"> </canvas>
+		<canvas id="member_A_fraction_graphic_second"> </canvas>
+		<canvas id="member_A_fraction_graphic_third"> </canvas>			
+		<div id="A_translate">轉換圖卡 </div>
+		<div id="A_check"> 確定</div>
+		<div id="A_next"> 結束活動</div>
+	</div>
+	
+	<div id="B_panel">
+		<canvas id="B_symbol_panel"> </canvas>
+		<div id="B_count"> </div>
+		<div id="B_close"> </div>
+		<canvas id="B_cloze1"> </canvas>
+		<div id="B_equal1">= </div>
+		<canvas id="B_cloze2"> </canvas>
+		<div id="B_equal2">= </div>
+		<canvas id="B_cloze3"> </canvas>		
+		<div id="B_add"> </div>
+		<div id="B_sub"> </div>
+		<div id="B_unit"> 個位</div>
+		<div id="B_ten"> 十位</div>
+		<div id="B_confirm">確定</div>
+		<div id="B_extend_reduce">擴分 </div>
+		<div id="B_previous"> 上個步驟</div>
+		<div id="B_message"> </div>
+	</div>
+	
+	<div id="B_report">分數加減活動完成! <br>所有的活動都完成了，恭喜你們</div>
+	<div id="B_rubberBandArea"> 
+		<div id="B_to_center1"> </div>
+		<div id="B_to_center2"> </div>
+		<div id="B_to_center3"> </div>
+		
+		<div id="B_to_center1_link"> </div>
+		<div id="B_to_center2_link"> </div>
+		<div id="B_to_center3_link"> </div>
+	</div>
+	
+	<div id="B_take_back1">收回圖卡 </div>
+	<div id="B_take_back2">收回圖卡 </div>
+	<div id="B_take_back3">收回圖卡 </div>
+	<div id="member_B">
+		<canvas id="member_B_fraction_symbol_first"> </canvas>
+		<canvas id="member_B_fraction_symbol_second"> </canvas>
+		<canvas id="member_B_fraction_symbol_third"> </canvas>
+			
+		<canvas id="member_B_fraction_graphic_first"> </canvas>
+		<canvas id="member_B_fraction_graphic_second"> </canvas>
+		<canvas id="member_B_fraction_graphic_third"> </canvas>			
+		<div id="B_translate">轉換圖卡 </div>
+		<div id="B_check"> 確定</div>
+		<div id="B_next"> 結束活動</div>
+	</div>
+	
+	<div id="C_panel">
+		<div id="C_close"> </div>
+		<canvas id="C_symbol_panel"> </canvas>
+		<div id="C_count"> </div>
+		<canvas id="C_cloze1"> </canvas>
+		<div id="C_equal1">= </div>
+		<canvas id="C_cloze2"> </canvas>
+		<div id="C_equal2">= </div>
+		<canvas id="C_cloze3"> </canvas>		
+		<div id="C_add"> </div>
+		<div id="C_sub"> </div>
+		<div id="C_unit"> 個位</div>
+		<div id="C_ten"> 十位</div>
+		<div id="C_confirm">確定</div>
+		<div id="C_extend_reduce">擴分 </div>
+		<div id="C_previous"> 上個步驟</div>
+		<div id="C_message"> </div>
+	</div>
+	
+	<div id="C_report">分數加減活動完成! <br>所有的活動都完成了，恭喜你們</div>
+	<div id="C_rubberBandArea"> 
+		<div id="C_to_center1"> </div>
+		<div id="C_to_center2"> </div>
+		<div id="C_to_center3"> </div>
+		
+		<div id="C_to_center1_link"> </div>
+		<div id="C_to_center2_link"> </div>
+		<div id="C_to_center3_link"> </div>
+	</div>
+	
+	<div id="C_take_back1">收回圖卡 </div>
+	<div id="C_take_back2">收回圖卡 </div>
+	<div id="C_take_back3">收回圖卡 </div>
+	<div id="member_C">
+		<canvas id="member_C_fraction_symbol_first"> </canvas>
+		<canvas id="member_C_fraction_symbol_second"> </canvas>
+		<canvas id="member_C_fraction_symbol_third"> </canvas>
+		
+		<canvas id="member_C_fraction_graphic_first"> </canvas>
+		<canvas id="member_C_fraction_graphic_second"> </canvas>
+		<canvas id="member_C_fraction_graphic_third"> </canvas>			
+		<div id="C_translate">轉換圖卡 </div>
+		<div id="C_check"> 確定</div>
+		<div id="C_next">結束活動 </div>
+	</div>
+		
+		
+	<script type="text/javascript" src="myjs/canvas_element_4.js"></script>
+	<script type="text/javascript" src="myjs/objectProperty_4.js"></script>
+	<script type="text/javascript" src="myjs/add_sub.js"></script>
+	<object id="tuio" type="application/x-tuio"> </object>
+	</body>
+</html>
